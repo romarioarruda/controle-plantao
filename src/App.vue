@@ -1,31 +1,89 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <q-layout view="lHh Lpr lFf" class="bg-white text-white">
+    <q-header elevated class="bg-grey-6">
+      <q-toolbar>
+        <q-btn
+          flat
+          dense
+          round
+          @click="leftDrawerOpen = !leftDrawerOpen"
+          aria-label="Menu"
+          icon="menu"
+        />
+
+        <q-toolbar-title>
+          Plantão
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      content-class="bg-grey-8"
+    >
+      <q-list dark>
+        <q-item-label header>Menu de navegação</q-item-label>
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <router-link to="/" tag="div">
+              <q-item-label>Home</q-item-label>
+            </router-link>
+          </q-item-section>
+        </q-item>
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon name="today" />
+          </q-item-section>
+          <q-item-section>
+            <router-link :to="'/registro-plantao/'+data" tag="div">
+              <q-item-label>Registrar Plantão</q-item-label>
+            </router-link>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-drawer>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+  </q-layout>
 </template>
 
+<script>
+export default {
+  name: 'MyLayout',
+  data () {
+    return {
+      leftDrawerOpen: false
+    }
+  },
+
+  computed: {
+    data() {
+      let data = new Date()
+
+      let mes = data.getMonth() + 1
+      let dia = data.getDate()
+      let ano = data.getFullYear()
+
+      return ano + '-' + mes + '-' + dia
+    }
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
+    .centralizado {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+    .largura {
+        width: 30%
+    }
 </style>
